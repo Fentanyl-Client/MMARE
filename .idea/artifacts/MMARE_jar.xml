@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MMARE:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MMARE_jar</output-path>
+    <root id="archive" name="MMARE.jar">
+      <element id="module-output" name="MMARE" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jars/lombok-1.18.24.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
