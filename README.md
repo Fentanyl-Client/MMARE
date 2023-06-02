@@ -1,6 +1,6 @@
 # MMARE
-A randomly generated random number engine.
-*Make me a random engine!*
+MMARE (Make Me A Random Engine!) is a Java library which provides a randomly generated random number engine which can be serialised and deserialised.<br><br>
+It provides a way to generate unbiased numbers completely random with a progressively updating seed and variables to ensure that you never get the same number repeatedly.
 
 ## Usage
 
