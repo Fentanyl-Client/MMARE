@@ -24,8 +24,6 @@ import java.util.Random;
  * @since 1.0
  * @version 1.0
  *
- * @category tech.fentanyl.mmare.engine.factory
- * @package tech.fentanyl.mmare.engine.factory
  * @license MIT License
  *
  * @author darraghd493

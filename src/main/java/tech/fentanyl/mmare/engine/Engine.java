@@ -26,8 +26,6 @@ import java.util.Map;
  * @since 1.0
  * @version 1.0
  *
- * @category tech.fentanyl.mmare.engine
- * @package tech.fentanyl.mmare.engine
  * @license MIT License
  *
  * @author darraghd493

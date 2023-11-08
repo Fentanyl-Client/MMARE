@@ -21,9 +21,6 @@ import lombok.Getter;
  * @since 1.0
  * @version 1.0
  *
- * @category tech.fentanyl.mmare.instruction
- * @package tech.fentanyl.mmare.instruction
- *
  * @license MIT License
  *
  * @author darraghd493
