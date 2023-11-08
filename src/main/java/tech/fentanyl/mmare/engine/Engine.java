@@ -32,6 +32,7 @@ import java.util.Map;
  */
 
 @Getter
+@SuppressWarnings({"unchecked", "unused"})
 public class Engine implements Serializable {
     public Map<Instruction, Integer> instructions;
     public int seed;

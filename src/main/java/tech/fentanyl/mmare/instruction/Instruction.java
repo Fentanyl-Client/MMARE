@@ -26,6 +26,7 @@ import lombok.Getter;
  */
 
 @Getter
+@SuppressWarnings("unused")
 public class Instruction {
     private final int opcode;
 
