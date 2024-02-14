@@ -3,7 +3,6 @@ MMARE (Make Me A Random Engine!) is a Java library which provides a randomly gen
 It provides a way to generate unbiased numbers completely random with a progressively updating seed and variables to ensure that you never get the same number repeatedly.
 
 ## Usage
-
 ```java
 import tech.fentanyl.mmare.engine.Engine;
 import tech.fentanyl.mmare.engine.factory.EngineFactory;
