@@ -2,6 +2,29 @@
 MMARE (Make Me A Random Engine!) is a Java library which provides a randomly generated random number engine which can be serialised and deserialised.<br><br>
 It provides a way to generate unbiased numbers completely random with a progressively updating seed and variables to ensure that you never get the same number repeatedly.
 
+## Installation
+You can install this package using [Jitpack](https://jitpack.io/#Fentanyl-Client/MMARE).
+
+### Gradle
+```gradle
+dependencies {
+    implementation 'com.github.Fentanyl-Client:MMARE:1.0.1'
+}
+```
+
+### Maven
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.github.Fentanyl-Client</groupId>
+        <artifactId>MMARE</artifactId>
+        <version>1.0.1</version>
+    </dependency>
+</dependencies>
+```
+
+or you can check the [releases](https://github.com/Fentanyl-Client/MMARE/releases/latest) for a compiled .jar.
+
 ## Usage
 ```java
 import tech.fentanyl.mmare.engine.Engine;
