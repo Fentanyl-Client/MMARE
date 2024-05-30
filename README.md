@@ -8,7 +8,7 @@ You can install this package using [Jitpack](https://jitpack.io/#Fentanyl-Client
 ### Gradle
 ```gradle
 dependencies {
-    implementation 'com.github.Fentanyl-Client:MMARE:1.0.1'
+    implementation 'com.github.Fentanyl-Client:MMARE:1.0.2'
 }
 ```
 
@@ -18,7 +18,7 @@ dependencies {
     <dependency>
         <groupId>com.github.Fentanyl-Client</groupId>
         <artifactId>MMARE</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 </dependencies>
 ```
