@@ -18,7 +18,7 @@ import lombok.Getter;
  * @see tech.fentanyl.mmare.engine.Engine
  *
  * @since 1.0
- * @version 1.0
+ * @version 1.0.2
  *
  * @license MIT License
  *
@@ -53,9 +53,15 @@ public class Instruction {
      * @return The result of the instruction
      */
     public int run(int a, int b) {
-        // Safety check to prevent division by zero
-        a = a == 0 ? (b == 0 ? 2 : b) * (b == 0 ? 2 : b) : a;
-        b = b == 0 ? a * a : b;
+        // Prevent recessive values
+        if (a == b) {
+            a = a >> 4;
+            b = b >> 6;
+        }
+
+        // Safety check
+        a = a == 0 ? b == 0 ? 1 : b : a;
+        b = b == 0 ? a == 1 ? 2 : a : b;
 
         // Run the instruction
         switch (this.opcode) {
@@ -63,7 +69,7 @@ public class Instruction {
             case 0x01: return a - b; // Subtraction
             case 0x02: return a * b; // Multiplication
             case 0x03: return a / b; // Division
-            case 0x04: return a % b; // Modulo
+            case 0x04: return a % (b < 0 ? b * -1 : b); // Modulo
             case 0x05: return (int) Math.pow(a, b); // Exponent
             case 0x06: return a & b; // Bitwise and
             case 0x07: return a | b; // Bitwise or
@@ -72,7 +78,8 @@ public class Instruction {
             case 0x0A: return a << b; // Bitwise left shift
             case 0x0B: return a >> b; // Bitwise right shift
             case 0x0C: return a >>> b; // Bitwise unsigned right shift
-            default: return 0;
+            default:
+                throw new UnsupportedOperationException("Unknown opcode: " + this.opcode);
         }
     }
 }
