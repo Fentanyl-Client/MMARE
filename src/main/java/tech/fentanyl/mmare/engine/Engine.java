@@ -17,6 +17,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * The engine class is the main class of the MMARE engine. It contains the instructions and the seed.
@@ -32,8 +33,10 @@ import java.util.Map;
  */
 
 @Getter
-@SuppressWarnings({"unchecked", "unused"})
+@SuppressWarnings({"unused"})
 public class Engine implements Serializable {
+    public static final Random RANDOM = new Random();
+
     public Map<Instruction, Long> instructions;
     public long seed;
     public boolean iterateSeed;
@@ -43,7 +46,7 @@ public class Engine implements Serializable {
      */
     public Engine() {
         this.instructions = new HashMap<>();
-        this.seed = System.nanoTime();
+        this.seed = RANDOM.nextLong(); // Lazy solution
         this.iterateSeed = true;
     }
 
@@ -82,7 +85,7 @@ public class Engine implements Serializable {
             previous = entry;
         }
 
-        if (this.iterateSeed) this.seed = result;
+        if (this.iterateSeed) this.seed = RANDOM.nextLong();
         return result;
     }
 
@@ -217,18 +220,11 @@ public class Engine implements Serializable {
      * @throws IOException If an I/O error occurs
      */
     public byte[] serialize() throws IOException {
-        // Serialize the instructions map
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(this.instructions);
-        oos.close();
-
-        // Serialize the seed and iterateSeed
-        ByteBuffer buffer = ByteBuffer.allocate(9);
-        buffer.putLong(this.seed);
-        buffer.put((byte) (this.iterateSeed ? 1 : 0));
-        buffer.put(baos.toByteArray());
-        return buffer.array();
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(this);
+            return bos.toByteArray();
+        }
     }
 
     /**
@@ -239,23 +235,9 @@ public class Engine implements Serializable {
      * @throws ClassNotFoundException If the class of a serialized object cannot be found
      */
     public static Engine deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
-        // Deserialize the seed and iterateSeed
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
-        int seed = buffer.getInt();
-        boolean iterateSeed = buffer.get() == 1;
-
-        // Deserialize the instructions map
-        byte[] instructionsBytes = new byte[buffer.remaining()];
-        buffer.get(instructionsBytes);
-        ByteArrayInputStream bais = new ByteArrayInputStream(instructionsBytes);
-        ObjectInputStream ois = new ObjectInputStream(bais);
-        Map<Instruction, Long> instructions = (Map<Instruction, Long>) ois.readObject();
-        ois.close();
-
-        // Create the engine
-        Engine engine = new Engine(seed);
-        engine.iterateSeed = iterateSeed;
-        engine.instructions = instructions;
-        return engine;
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+             ObjectInputStream ois = new ObjectInputStream(bis)) {
+            return (Engine) ois.readObject();
+        }
     }
 }
