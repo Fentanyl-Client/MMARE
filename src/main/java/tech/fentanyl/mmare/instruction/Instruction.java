@@ -12,6 +12,8 @@ package tech.fentanyl.mmare.instruction;
 
 import lombok.Getter;
 
+import java.io.Serializable;
+
 /**
  * Represents an instruction that can be executed by the MMARE engine.
  *
@@ -27,7 +29,7 @@ import lombok.Getter;
 
 @Getter
 @SuppressWarnings("unused")
-public class Instruction {
+public class Instruction implements Serializable {
     private final int opcode;
 
     /**
@@ -81,5 +83,22 @@ public class Instruction {
             default:
                 throw new UnsupportedOperationException("Unknown opcode: " + this.opcode);
         }
+    }
+
+    /**
+     * Serializes the instruction to a byte array.
+     * @return The serialized instruction
+     */
+    public byte[] serialize() {
+        return new byte[]{(byte) this.opcode};
+    }
+
+    /**
+     * Deserializes the instruction from a byte array.
+     * @param data The data to deserialize
+     * @return The deserialized instruction
+     */
+    public static Instruction deserialize(byte[] data) {
+        return new Instruction(data[0]);
     }
 }
