@@ -32,11 +32,7 @@ public enum Operation {
     ADD(0x00), // + (addition)
     SUBTRACT(0x01), // - (subtraction)
     MULTIPLY(0x02), // * (multiplication)
-    DIVIDE(0x03), // / (division)
-    MODULO(0x04), // % (modulo)
-    EXPONENT(0x05), // ^ (exponent)
-    BITWISE_LEFT_SHIFT(0x06), // << (bitwise left shift)
-    BITWISE_RIGHT_SHIFT(0x07); // >> (bitwise right shift)
+    DIVIDE(0x03); // / (division)
 
     /**
      * The opcode of the operation

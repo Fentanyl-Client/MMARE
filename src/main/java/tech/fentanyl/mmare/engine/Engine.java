@@ -34,8 +34,8 @@ import java.util.Map;
 @Getter
 @SuppressWarnings({"unchecked", "unused"})
 public class Engine implements Serializable {
-    public Map<Instruction, Integer> instructions;
-    public int seed;
+    public Map<Instruction, Long> instructions;
+    public long seed;
     public boolean iterateSeed;
 
     /**
@@ -43,7 +43,7 @@ public class Engine implements Serializable {
      */
     public Engine() {
         this.instructions = new HashMap<>();
-        this.seed = (int) System.nanoTime();
+        this.seed = System.nanoTime();
         this.iterateSeed = true;
     }
 
@@ -63,12 +63,12 @@ public class Engine implements Serializable {
      *
      * @return The result of the engine
      */
-    private int run() {
-        int result = this.seed;
-        Map.Entry<Instruction, Integer> previous = null;
+    private long run() {
+        long result = this.seed;
+        Map.Entry<Instruction, Long> previous = null;
 
         // Iterate through the instructions
-        for (Map.Entry<Instruction, Integer> entry : this.instructions.entrySet()) {
+        for (Map.Entry<Instruction, Long> entry : this.instructions.entrySet()) {
             result = entry.getKey().run(result, entry.getValue());
 
             // Update the value of the current entry if the previous entry is not null
@@ -91,7 +91,7 @@ public class Engine implements Serializable {
      * @return The result of the engine
      */
     public int nextInt() {
-        return run();
+        return (int) run();
     }
 
     /**
@@ -100,7 +100,7 @@ public class Engine implements Serializable {
      * @return The result of the engine
      */
     public int nextInt(int max) {
-        return run() % max;
+        return (int) run() % max;
     }
 
     /**
@@ -110,7 +110,7 @@ public class Engine implements Serializable {
      * @return The result of the engine
      */
     public int nextInt(int min, int max) {
-        return run() % (max - min) + min;
+        return (int) run() % (max - min) + min;
     }
 
     /**
@@ -145,7 +145,7 @@ public class Engine implements Serializable {
      * @return The result of the engine
      */
     public long nextLong() {
-        return run() & 0xFFFFFFFFL;
+        return run();
     }
 
     /**
@@ -225,7 +225,7 @@ public class Engine implements Serializable {
 
         // Serialize the seed and iterateSeed
         ByteBuffer buffer = ByteBuffer.allocate(9);
-        buffer.putInt(this.seed);
+        buffer.putLong(this.seed);
         buffer.put((byte) (this.iterateSeed ? 1 : 0));
         buffer.put(baos.toByteArray());
         return buffer.array();
@@ -249,7 +249,7 @@ public class Engine implements Serializable {
         buffer.get(instructionsBytes);
         ByteArrayInputStream bais = new ByteArrayInputStream(instructionsBytes);
         ObjectInputStream ois = new ObjectInputStream(bais);
-        Map<Instruction, Integer> instructions = (Map<Instruction, Integer>) ois.readObject();
+        Map<Instruction, Long> instructions = (Map<Instruction, Long>) ois.readObject();
         ois.close();
 
         // Create the engine

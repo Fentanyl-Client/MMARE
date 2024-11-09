@@ -14,6 +14,9 @@ import tech.fentanyl.mmare.engine.Engine;
 import tech.fentanyl.mmare.instruction.Instruction;
 import tech.fentanyl.mmare.instruction.Operation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -40,6 +43,16 @@ public class EngineFactory {
      * @return The engine
      */
     public static Engine createEngine(int instructions) {
+        return createEngine(instructions, QualityHandling.RETURN_NEW_ENGINE);
+    }
+
+    /**
+     * Creates an engine with a random number of instructions
+     * @param instructions The number of instructions to add to the engine
+     * @param qualityHandling The quality handling method
+     * @return The engine
+     */
+    public static Engine createEngine(int instructions, QualityHandling qualityHandling) {
         Engine engine = new Engine();
 
         for (int i = 0; i < instructions; i++) {
@@ -47,13 +60,43 @@ public class EngineFactory {
             Operation operation = Operation.values()[RANDOM.nextInt(Operation.values().length)];
             Instruction instruction = new Instruction(operation);
 
-            // Select a random integer value
-            int value = 1111111111 + RANDOM.nextInt(999999999);
-
             // Add the instruction to the engine
-            engine.instructions.put(instruction, value);
+            engine.instructions.put(instruction, RANDOM.nextLong());
+        }
+
+        // Test the engine is of good quality
+        List<Long> values = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            values.add(engine.nextLong());
+        }
+
+        long dominant = values.stream().mapToLong(Long::longValue).sum() / values.size();
+        long recessive = values.stream().reduce(0L, (a, b) -> a ^ b);
+
+        long mostCommon = values.stream()
+                .reduce((a, b) -> Collections.frequency(values, a) > Collections.frequency(values, b) ? a : b)
+                .orElseThrow(() -> new IllegalArgumentException("List is empty"));
+
+        int mostCommonCount = Collections.frequency(values, mostCommon);
+
+        if (dominant == recessive || mostCommonCount > 2) {
+            switch (qualityHandling) {
+                case THROW_EXCEPTION:
+                    throw new IllegalArgumentException("Engine is not of good quality");
+                case RETURN_ENGINE:
+                    return engine;
+                case RETURN_NEW_ENGINE:
+                    return createEngine(instructions, qualityHandling);
+            }
         }
 
         return engine;
+    }
+
+    public enum QualityHandling {
+        THROW_EXCEPTION,
+        RETURN_ENGINE,
+        RETURN_NEW_ENGINE
     }
 }

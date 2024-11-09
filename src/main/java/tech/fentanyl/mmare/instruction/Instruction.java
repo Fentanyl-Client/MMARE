@@ -54,7 +54,7 @@ public class Instruction implements Serializable {
      * @param b The second value
      * @return The result of the instruction
      */
-    public int run(int a, int b) {
+    public long run(long a, long b) {
         // Prevent recessive values
         if (a == b) {
             a = a >> 4;
@@ -70,11 +70,10 @@ public class Instruction implements Serializable {
             case 0x00: return a + b; // Addition
             case 0x01: return a - b; // Subtraction
             case 0x02: return a * b; // Multiplication
-            case 0x03: return a / b; // Division
-            case 0x04: return a % (b < 0 ? b * -1 : b); // Modulo
-            case 0x05: return (int) Math.pow(a, b); // Exponent
-            case 0x06: return a << b; // Bitwise left shift
-            case 0x07: return a >> b; // Bitwise right shift
+            case 0x03: return a > b ? a / b : b / a; // Division
+            case 0x04: return a > b ? a % b : b % a; // Modulo
+            case 0x05: return a << b; // Bitwise left shift
+            case 0x06: return a >> b; // Bitwise right shift
             default:
                 throw new UnsupportedOperationException("Unknown opcode: " + this.opcode);
         }
