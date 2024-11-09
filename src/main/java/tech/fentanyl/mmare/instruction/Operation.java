@@ -35,13 +35,8 @@ public enum Operation {
     DIVIDE(0x03), // / (division)
     MODULO(0x04), // % (modulo)
     EXPONENT(0x05), // ^ (exponent)
-    BITWISE_AND(0x06), // & (bitwise and)
-    BITWISE_OR(0x07), // | (bitwise or)
-    BITWISE_XOR(0x08), // ^ (bitwise xor)
-    BITWISE_NOT(0x09), // ~ (bitwise not)
-    BITWISE_LEFT_SHIFT(0x0A), // << (bitwise left shift)
-    BITWISE_RIGHT_SHIFT(0x0B), // >> (bitwise right shift)
-    BITWISE_UNSIGNED_RIGHT_SHIFT(0x0C); // >>> (bitwise unsigned right shift)
+    BITWISE_LEFT_SHIFT(0x06), // << (bitwise left shift)
+    BITWISE_RIGHT_SHIFT(0x07); // >> (bitwise right shift)
 
     /**
      * The opcode of the operation

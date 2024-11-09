@@ -73,13 +73,8 @@ public class Instruction implements Serializable {
             case 0x03: return a / b; // Division
             case 0x04: return a % (b < 0 ? b * -1 : b); // Modulo
             case 0x05: return (int) Math.pow(a, b); // Exponent
-            case 0x06: return a & b; // Bitwise and
-            case 0x07: return a | b; // Bitwise or
-            case 0x08: return a ^ b; // Bitwise xor
-            case 0x09: return ~(a & b); // Bitwise not
-            case 0x0A: return a << b; // Bitwise left shift
-            case 0x0B: return a >> b; // Bitwise right shift
-            case 0x0C: return a >>> b; // Bitwise unsigned right shift
+            case 0x06: return a << b; // Bitwise left shift
+            case 0x07: return a >> b; // Bitwise right shift
             default:
                 throw new UnsupportedOperationException("Unknown opcode: " + this.opcode);
         }
